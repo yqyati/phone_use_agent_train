@@ -1,0 +1,74 @@
+hydra:
+  searchpath:
+    - file://verl/trainer/config
+
+defaults:
+  - ppo_trainer
+  - _self_
+
+data:
+  train_files: ~/data/android_world_verl/train.parquet
+  val_files: ~/data/android_world_verl/test.parquet
+  max_prompt_length: 2048
+  max_response_length: 1024
+  train_batch_size: 128
+  return_raw_chat: True  # required for multi-turn
+
+actor_rollout_ref:
+  hybrid_engine: True
+  model:
+    path: Qwen/Qwen3-VL-7B-Instruct  # override via CLI
+  actor:
+    optim:
+      lr: 1e-6
+    ppo_mini_batch_size: 128
+    ppo_micro_batch_size_per_gpu: 2
+    use_kl_loss: True
+    kl_loss_coef: 0.001
+    kl_loss_type: low_var_kl
+    entropy_coeff: 0
+    fsdp_config:
+      param_offload: False
+      optimizer_offload: False
+      model_dtype: bfloat16
+  rollout:
+    name: sglang
+    n: 8  # GRPO group size: 8 trajectories per task
+    temperature: 1.0
+    gpu_memory_utilization: 0.7
+    tensor_model_parallel_size: 2
+    log_prob_micro_batch_size_per_gpu: 2
+    agent:
+      default_agent_loop: tool_agent  # routes through ToolAgentLoop which handles interaction_config_path
+    multi_turn:
+      enable: True
+      max_assistant_turns: 20  # matches max_steps in interaction config
+      interaction_config_path: examples/android_world/config/interaction_config/android_world_interaction_config.yaml
+  ref:
+    log_prob_micro_batch_size_per_gpu: 2
+    fsdp_config:
+      param_offload: False
+
+reward:
+  custom_reward_function:
+    # AndroidWorld scores come from the environment, not from text evaluation.
+    # This function reads turn_scores[-1] collected during the rollout episode.
+    path: examples/android_world/android_world_reward.py
+    name: compute_score
+
+algorithm:
+  adv_estimator: grpo
+  use_kl_in_reward: False
+
+trainer:
+  critic_warmup: 0
+  total_epochs: 10
+  save_freq: 10
+  test_freq: 20
+  project_name: android_world_grpo
+  experiment_name: qwen3vl_android_world_grpo_n8
+  logger:
+    - console
+    - wandb
+  n_gpus_per_node: 8
+  nnodes: 1

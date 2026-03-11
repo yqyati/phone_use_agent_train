@@ -1,0 +1,46 @@
+interaction:
+  - name: "android_world"
+    class_name: "verl.interactions.android_world_interaction.AndroidWorldInteraction"
+    config:
+      # Host ports mapped to individual Docker containers.
+      # Each container is started with:
+      #   docker run --privileged -p <port>:5000 android_world:latest
+      ports:
+        - 5001
+        - 5002
+        - 5003
+        - 5004
+        - 5005
+        - 5006
+        - 5007
+        - 5008
+        - 5009
+        - 5010
+        - 5011
+        - 5012
+        - 5013
+        - 5014
+        - 5015
+        - 5016
+        - 5017
+        - 5018
+        - 5019
+        - 5020
+        - 5021
+        - 5022
+        - 5023
+        - 5024
+        - 5025
+        - 5026
+        - 5027
+        - 5028
+        - 5029
+        - 5030
+        - 5031
+        - 5032
+      # Maximum agent steps per episode before forced termination
+      max_steps: 20
+      # Hostname where containers are running (default: localhost)
+      host: "localhost"
+      # Minimum score considered a successful completion
+      success_threshold: 1.0
