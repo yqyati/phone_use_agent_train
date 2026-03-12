@@ -263,7 +263,9 @@ class WebWorldInteraction(BaseInteraction):
         messages: list[dict[str, Any]],
         **kwargs,
     ) -> tuple[bool, str, float, dict[str, Any]]:
-        inst = self._instances[instance_id]
+        inst = self._instances.get(instance_id)
+        if inst is None:
+            return True, "Task already completed.", 0.0, {}
 
         if inst["done"]:
             return True, "Task already completed.", inst.get("final_score", 0.0), {}

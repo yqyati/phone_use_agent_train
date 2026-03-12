@@ -17,7 +17,6 @@ import argparse
 import asyncio
 import base64
 import json
-import mimetypes
 import os
 from pathlib import Path
 from typing import Optional

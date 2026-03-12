@@ -1,0 +1,23 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "image",
+        "source": {
+          "type": "base64",
+          "media_type": "image/png",
+          "data": "<truncated>"
+        }
+      },
+      {
+        "type": "text",
+        "text": "Here is the current page:\nWhat is your next action?"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": "I need to analyze the current page to understand what task I should complete. However, I don't see a specific task mentioned. Let me look at the page more carefully.\n\nThe page shows a \"Recovery Support Family Groups\" website for the Southern Region. I can see various navigation options including HOME, MEETINGS, RESOURCES, WORKSHOPS & EVENTS, STORIES, TOOLS, CRISIS & HOTLINES, MY PLAN, FAVORITES, READING LIST, QUICK CONTACTS, and MY NOTES.\n\nSince no specific task has been given to me yet, I'll wait for instructions. But looking at the prompt \"What is your next action?\" - this seems to be asking me to determine what to do next based on the current state.\n\nSince I don't have a specific task provided, I'll wait for the task to be defined.\n\n<action>{\"action_type\": \"wait\"}</action>"
+  }
+]

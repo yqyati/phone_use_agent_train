@@ -1,0 +1,23 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "image",
+        "source": {
+          "type": "base64",
+          "media_type": "image/png",
+          "data": "<truncated>"
+        }
+      },
+      {
+        "type": "text",
+        "text": "Here is the current page:\nWhat is your next action?"
+      }
+    ]
+  },
+  {
+    "role": "assistant",
+    "content": "I need to analyze the current page. It appears to be a horse training/equestrian blog website called \"Purzel\" with featured articles. The page shows a home/landing page with search functionality and featured stories.\n\nSince no specific task has been given yet, I'll wait for instructions or examine the page more carefully. However, since this is the initial state and I need to determine what action to take, let me wait for the actual task to be specified.\n\n<action>{\"action_type\": \"wait\"}</action>"
+  }
+]
