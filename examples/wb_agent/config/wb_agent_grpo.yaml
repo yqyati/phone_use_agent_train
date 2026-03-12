@@ -7,8 +7,8 @@ defaults:
   - _self_
 
 data:
-  train_files: ~/data/android_world_verl/train.parquet
-  val_files: ~/data/android_world_verl/test.parquet
+  train_files: ~/data/wb_agent_verl/train.parquet
+  val_files: ~/data/wb_agent_verl/test.parquet
   max_prompt_length: 2048
   max_response_length: 1024
   train_batch_size: 128
@@ -17,7 +17,7 @@ data:
 actor_rollout_ref:
   hybrid_engine: True
   model:
-    path: Qwen/Qwen3-VL-7B-Instruct  # override via CLI
+    path: Qwen/Qwen3-VL-7B-Instruct
   actor:
     optim:
       lr: 1e-6
@@ -34,17 +34,17 @@ actor_rollout_ref:
   rollout:
     name: sglang
     mode: async
-    n: 8  # GRPO group size: 8 trajectories per task
+    n: 8                   # GRPO group size: 8 trajectories per task
     temperature: 1.0
     gpu_memory_utilization: 0.7
     tensor_model_parallel_size: 2
     log_prob_micro_batch_size_per_gpu: 2
     agent:
-      default_agent_loop: tool_agent  # routes through ToolAgentLoop which handles interaction_config_path
+      default_agent_loop: tool_agent
     multi_turn:
       enable: True
-      max_assistant_turns: 20  # matches max_steps in interaction config
-      interaction_config_path: examples/android_world/config/interaction_config/android_world_interaction_config.yaml
+      max_assistant_turns: 25  # matches max_steps in interaction config
+      interaction_config_path: examples/wb_agent/config/interaction_config/wb_agent_interaction_config.yaml
   ref:
     log_prob_micro_batch_size_per_gpu: 2
     fsdp_config:
@@ -52,9 +52,7 @@ actor_rollout_ref:
 
 reward:
   custom_reward_function:
-    # AndroidWorld scores come from the environment, not from text evaluation.
-    # This function reads turn_scores[-1] collected during the rollout episode.
-    path: examples/android_world/android_world_reward.py
+    path: examples/wb_agent/wb_agent_reward.py
     name: compute_score
 
 algorithm:
@@ -66,8 +64,8 @@ trainer:
   total_epochs: 10
   save_freq: 10
   test_freq: 20
-  project_name: android_world_grpo
-  experiment_name: qwen3vl_android_world_grpo_n8
+  project_name: wb_agent_grpo
+  experiment_name: qwen3vl_wb_agent_grpo_n8
   logger:
     - console
     - wandb
