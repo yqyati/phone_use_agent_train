@@ -36,15 +36,17 @@ verl/interactions/
 
 ```bash
 pip install playwright fastapi uvicorn aiofiles
-playwright install chromium
+#playwright install chromium
+export PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/data/android/yqy/tests/wbagent/chrome-linux64/chrome
 ```
+
 
 ### 第二步：启动浏览器 Worker 池
 
 启动 64 个并行 worker，每个 worker 独占一个 Playwright Chromium 实例：
 
 ```bash
-DATASET_DIR=/path/to/InfiniteWeb-Dataset
+DATASET_DIR=/data/android/yqy/tests/wbagent/InfiniteWeb-Dataset
 
 for i in $(seq 1 64); do
   python examples/wb_agent/env_server/web_env_server.py \
